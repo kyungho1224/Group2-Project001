@@ -64,6 +64,13 @@ public class MovieDTO {
         this.genre = genre;
     }
 
+    public String printMovieInfo() {
+        String header = "************************";
+        String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre;
+        String footer = "************************";
+        return header + "\n" + body + "\n" + footer;
+    }
+
     @Override
     public String toString() {
         return "MovieDTO{" +
