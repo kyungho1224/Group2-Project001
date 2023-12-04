@@ -12,9 +12,7 @@ public class MovieDTO {
     private int runningTime;
     private float rating;
     private String genre;
-
     private int seat;
-    private int test;
     public MovieDTO() {
     }
 
@@ -24,6 +22,7 @@ public class MovieDTO {
         this.runningTime = runningTime;
         this.rating = rating;
         this.genre = genre;
+        seat = 100;
     }
 
     public MovieDTO(String title, String major, int runningTime, float rating, String genre, int seat) {

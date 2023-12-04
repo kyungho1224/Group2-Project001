@@ -136,4 +136,12 @@ public class MovieOperations {
         return searchMovies;
     }
 
+    public int searchMovieByName(String movieName) {
+        for (int index = 0; index < movies.length; index++) {
+            if (movies[index] != null && movies[index].getTitle().equals(movieName)) {
+                return index;
+            }
+        }
+        return -1;
+    }
 }

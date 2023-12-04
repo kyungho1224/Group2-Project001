@@ -19,7 +19,7 @@ public class MovieProcessor {
         while (true) {
 
             System.out.println("========== 장르별 영화 검색 프로그램(2조-잠은 죽어서 자야조) ==========");
-            System.out.println("1.영화입력(I)\t2.영화출력(P)\t3.영화검색(S)\t4.종료(E)");
+            System.out.println("1.영화입력(I)\t2.영화출력(P)\t3.영화검색(S)\t4.영화예매(R)\t5.종료(E)");
             System.out.println("===============================================================");
             System.out.print("메뉴입력 : ");
 
@@ -135,14 +135,92 @@ public class MovieProcessor {
                 System.out.println("프로그램을 종료합니다. 감사합니다!");
                 System.out.println();
                 break;
+            } else if (menu.equalsIgnoreCase("R")) {
+                // TODO 영화 예매
+
+                if (movieOperations.getCurrentMovieCount() == 0) {
+                    System.out.println("예매 가능한 영화가 없습니다!");
+                    System.out.println();
+                    continue;
+                }
+                while (true) {
+                    System.out.println();
+                    System.out.println("======== 영화 예매 ========");
+                    System.out.println("1.예매하기\t2.예매내역확인\t3.뒤로가기");
+
+                    System.out.print("메뉴입력 : ");
+
+                    String menu2 = scanner.nextLine();
+
+                    if (menu2.equals("1")) {
+                        // TODO 예매하기
+
+                        System.out.print("예매하실 영화의 제목을 입력해주세요 : ");
+                        String movieName = scanner.nextLine();
+                        int index = movieOperations.searchMovieByName(movieName);
+                        if (index == -1) {
+                            System.out.println("선택하신 영화가 없습니다!");
+                            System.out.println();
+                        } else {
+                            System.out.print("예매하실 인원 수를 입력해주세요 : ");
+                            char[] bookSeats = scanner.nextLine().toCharArray();
+                            boolean isdigit = true;
+
+                            for (int i = 0; i < bookSeats.length; i++) {
+                                if (!Character.isDigit(bookSeats[i])) {
+                                    System.out.println("잘못된 입력입니다.");
+                                    System.out.println();
+                                    isdigit = false;
+                                    break;
+                                }
+                            }
+
+                            if (isdigit) {
+                                MovieDTO[] movies = movieOperations.getMovieList();
+                                if (movies[index].getSeat() >= Integer.parseInt(String.valueOf(bookSeats))) {
+                                    movies[index].setSeat(movies[index].getSeat() - Integer.parseInt(String.valueOf(bookSeats)));
+                                    System.out.println("영화 예매가 완료되었습니다.");
+                                    System.out.println();
+                                } else {
+                                    System.out.println("잔여 좌석이 부족합니다.");
+                                    System.out.println();
+                                }
+                            }
+                        }
+
+
+                    } else if (menu2.equals("2")) {
+                        // TODO 예매내역확인
+
+                        MovieDTO[] movies = movieOperations.getMovieList();
+                        boolean check = false;
+                        for (MovieDTO movie : movies) {
+                            if (movie != null && movie.getSeat() != 100) {
+                                System.out.println(movie.printMovieInfo());
+                                System.out.println("예매한 좌석 수 : " + (100 - movie.getSeat()));
+                                System.out.println();
+                                check = true;
+                            }
+                        }
+                        if (!check) {
+                            System.out.println("현재 예매된 영화가 없습니다.");
+                            System.out.println();
+                        }
+                    } else if (menu2.equals("3")) {
+                        // TODO 뒤로가기
+
+                        System.out.println();
+                        break;
+                    } else {
+                        System.out.println("잘못된 입력입니다. 메뉴를 다시 확인하고 입력해주세요.");
+                        System.out.println();
+                    }
+                }
             } else {
                 // TODO 메뉴에 없는 입력을 받았을 때 오류 처리
                 System.out.println("잘못된 입력입니다. 메뉴를 다시 확인하고 입력해주세요.");
                 System.out.println();
             }
-
         }
-
     }
-
 }
