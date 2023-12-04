@@ -2,138 +2,147 @@ package com.fastcampus.be7.group2;
 
 import com.fastcampus.be7.group2.model.MovieDTO;
 
+import java.util.Scanner;
+
 /**
  * Created by KimKyungHo on 2023-12-01(001)
  */
 
-/* 기능 구현 클래스 */
+/* 메인 클래스 */
 public class MovieProcessor {
 
-    private MovieDTO[] movies;
-    private int maxMovieCount = 0;  // 저장할 영화의 최대 개수
-    private int currentMovieCount = 0;  // 현재 저장된 영화 개수
+    public static void main(String[] args) {
 
-    public MovieProcessor() {
-    }
+        // 기능 구현 클래스
+        MovieOperations movieOperations = new MovieOperations();
 
-    /**
-     * TODO 영화의 데이터 수를 입력하고...라는 명세서 내용때문에 초기화하는 부분
-     *
-     * @param movieCount 최초 영화 데이터의 수를 입력받아 배열을 초기화 하기 위한 숫자
-     * @author KimKyungHo
-     */
-    public void initMovie(int movieCount) {
-        // - 먼저, 영화 데이터의 수를 입력하고
-        maxMovieCount = movieCount;
-        movies = new MovieDTO[movieCount];
-    }
+        while (true) {
 
-    /**
-     * @return 영화 데이터의 최대 개수
-     * @author KimKyungHo
-     */
-    public int getMaxMovieCount() {
-        return maxMovieCount;
-    }
+            System.out.println("========== 장르별 영화 검색 프로그램(2조-잠은 죽어서 자야조) ==========");
+            System.out.println("1.영화입력(I)\t2.영화출력(P)\t3.영화검색(S)\t4.종료(E)");
+            System.out.println("===============================================================");
+            System.out.print("메뉴입력 : ");
 
-    /**
-     * @author KimKyungHo
-     * 최초 설정한 영화 데이터의 개수보다 더 많은 데이터를 입력받게 되면 최대 개수를 늘린다
-     */
-    public void increaseMaxCount() {
-        maxMovieCount++;
-        MovieDTO[] afterMovies = new MovieDTO[maxMovieCount];
-        for (int i = 0; i < movies.length; i++) {
-            afterMovies[i] = movies[i];
-        }
-        movies = afterMovies;
-    }
+            // 사용자 입력을 받을 스캐너
+            Scanner scanner = new Scanner(System.in);
+            String menu = scanner.nextLine();
 
-    /**
-     * @return 현재까지 입력된 영화 데이터의 개수
-     * @author KimKyungHo
-     */
-    public int getCurrentMovieCount() {
-        return currentMovieCount;
-    }
+            if (menu.equalsIgnoreCase("I")) {
+                // TODO 영화입력
 
-    /**
-     * @param movie 영화 데이터의 상세정보를 입력받아 저장하고
-     *              현재까지 입력된 영화 데이터의 개수를 늘린다
-     * @author KimKyungHo
-     */
-    public void addMovie(MovieDTO movie) {
-        movies[currentMovieCount] = movie;
-        currentMovieCount++;
-    }
-
-    /**
-     * @return 영화 데이터의 목록
-     * 현재까지 입력된 영화의 수가 2개 이상이라면 내림차순 정리하여 값을 넘겨주고
-     * 1개라면 정렬하지 않고 그냥 넘겨준다
-     * @author KimKyungHo
-     */
-    public MovieDTO[] getMovieList() {
-        if (currentMovieCount > 1) {
-            return sortMovieList();
-        }
-        return movies;
-    }
-
-    /**
-     * @return 영화 데이터를 내림차순으로 정렬한 목록
-     * @author KimKyungHo
-     */
-    public MovieDTO[] sortMovieList() {
-        for (int i = 0; i < currentMovieCount; i++) {
-            for (int j = i + 1; j < currentMovieCount; j++) {
-                if (movies[i].getRating() < movies[j].getRating()) {
-                    MovieDTO tmpMovie;
-                    tmpMovie = movies[i];
-                    movies[i] = movies[j];
-                    movies[j] = tmpMovie;
+                if (movieOperations.getMaxMovieCount() == 0) {
+                    // - 먼저, 영화 데이터의 수를 입력하고
+                    System.out.print("영화 데이터의 수를 입력해주세요 : ");
+                    movieOperations.initMovie(scanner.nextInt());
+                    scanner.nextLine();
                 }
-            }
-        }
-        return movies;
-    }
 
-    /**
-     * @param genre 검색 기준이 될 장르를 입력받는다
-     * @return 저장된 영화 데이터 목록 중 입력받은 장르에 해당하는 영화의 개수
-     * @author KimKyungHo
-     * @see #searchMovieByGenre
-     */
-    public int searchCount(int genre) {
-        int count = 0;
-        for (MovieDTO movie : movies) {
-            if (movie != null) {
-                if (movie.getGenre() == genre) {
-                    count++;
+                // MovieDTO 배열을 사용하여 각 영화의 세부 사항을 저장합니다.
+                System.out.print("제목을 입력해주세요 : ");
+                String title = scanner.nextLine();
+                if (title.equals("-1")) {
+                    System.out.println("영화 입력을 중단합니다.");
+                    continue;
                 }
-            }
-        }
-        return count;
-    }
+                System.out.print("주인공을 입력해주세요 : ");
+                String major = scanner.nextLine();
+                if (major.equals("-1")) {
+                    System.out.println("영화 입력을 중단합니다.");
+                    continue;
+                }
+                System.out.print("상영시간을 입력해주세요 : ");
+                int runningTime = scanner.nextInt();
+                scanner.nextLine();
+                if (runningTime == -1) {
+                    System.out.println("영화 입력을 중단합니다.");
+                    continue;
+                }
+                System.out.print("평점을 입력해주세요 : ");
+                float rating = scanner.nextFloat();
+                scanner.nextLine();
+                if ((int) rating == -1) {
+                    System.out.println("영화 입력을 중단합니다.");
+                    continue;
+                }
+                System.out.print("장르를 입력해주세요 : ");
+                String genre = scanner.nextLine();
+                if (genre.equals("-1")) {
+                    System.out.println("영화 입력을 중단합니다.");
+                    continue;
+                }
 
-    /**
-     * @param genre 검색 기준이 될 장르를 입력받는다
-     * @return 저장된 영화 데이터 목록 중 입력받은 장르에 해당하는 영화의 목록
-     * @author KimKyungHo
-     * @see #searchCount
-     */
-    public MovieDTO[] searchMovieByGenre(int genre) {
-        MovieDTO[] searchMovies = new MovieDTO[searchCount(genre)];
-        int index = 0;
-        for (MovieDTO movie : movies) {
-            if (movie != null) {
-                if (movie.getGenre() == genre) {
-                    searchMovies[index] = movie;
-                    index++;
+                // 최초에 지정한 영화 데이터의 수를 넘어가면 배열을 늘린다.
+                if (movieOperations.getMaxMovieCount() == movieOperations.getCurrentMovieCount()) {
+                    movieOperations.increaseMaxCount();
                 }
+                // MovieDTO 저장
+                MovieDTO movieDTO = new MovieDTO(title, major, runningTime, rating, genre);
+                movieOperations.addMovie(movieDTO);
+                System.out.println("영화 저장이 완료되었습니다.");
+                System.out.println("총 " + movieOperations.getCurrentMovieCount() + "개의 영화가 저장되어 있습니다.");
+                System.out.println();
+
+            } else if (menu.equalsIgnoreCase("P")) {
+                // TODO 영화출력
+
+                // 저장된 영화가 없을 때 영화출력을 요청했을 때 처리
+                if (movieOperations.getCurrentMovieCount() > 0) {
+                    System.out.println("총 " + movieOperations.getCurrentMovieCount() + "개의 영화가 있습니다.");
+                    MovieDTO[] movies = movieOperations.getMovieList();
+                    for (MovieDTO movie : movies) {
+                        if (movie != null) {
+                            System.out.println(movie.printMovieInfo());
+                        }
+                    }
+                } else {
+                    System.out.println("저장된 영화가 없습니다!");
+                }
+                System.out.println();
+            } else if (menu.equalsIgnoreCase("S")) {
+                // TODO 영화 장르 검색
+
+                while (true) {
+                    if (movieOperations.getCurrentMovieCount() > 0) {
+                        System.out.print("검색할 장르를 입력해주세요 : ");
+                        String genre = scanner.nextLine();
+                        if (genre.equals("1") || genre.equals("2") || genre.equals("3")) {
+                            int searchCount = movieOperations.searchCount(genre);
+                            if (searchCount == 0) {
+                                System.out.println("선택하신 장르의 영화가 없습니다!");
+                            } else {
+                                System.out.println("요청하신 장르의 영화가 " + movieOperations.searchCount(genre) + "건 있습니다.");
+                                MovieDTO[] movies = movieOperations.searchMovieByGenre(genre);
+                                for (MovieDTO movie : movies) {
+                                    System.out.println(movie.printMovieInfo());
+                                }
+                            }
+                            System.out.println();
+                            break;
+                        } else {
+                            System.out.println("장르의 종류는 1, 2, 3 중 하나를 입력해야 합니다!");
+                            System.out.println();
+                        }
+                    } else {
+                        System.out.println("저장된 영화가 없습니다!");
+                        System.out.println();
+                        break;
+                    }
+                }
+
+            } else if (menu.equalsIgnoreCase("E") || menu.equals("-1")) {
+                // TODO 종료
+
+                System.out.println("프로그램을 종료합니다. 감사합니다!");
+                System.out.println();
+                break;
+            } else {
+                // TODO 메뉴에 없는 입력을 받았을 때 오류 처리
+                System.out.println("잘못된 입력입니다. 메뉴를 다시 확인하고 입력해주세요.");
+                System.out.println();
             }
+
         }
-        return searchMovies;
+
     }
 
 }

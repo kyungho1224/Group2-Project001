@@ -11,12 +11,12 @@ public class MovieDTO {
     private String major;
     private int runningTime;
     private float rating;
-    private int genre;
+    private String genre;
 
     public MovieDTO() {
     }
 
-    public MovieDTO(String title, String major, int runningTime, float rating, int genre) {
+    public MovieDTO(String title, String major, int runningTime, float rating, String genre) {
         this.title = title;
         this.major = major;
         this.runningTime = runningTime;
@@ -56,11 +56,11 @@ public class MovieDTO {
         this.rating = rating;
     }
 
-    public int getGenre() {
+    public String getGenre() {
         return genre;
     }
 
-    public void setGenre(int genre) {
+    public void setGenre(String genre) {
         this.genre = genre;
     }
 
