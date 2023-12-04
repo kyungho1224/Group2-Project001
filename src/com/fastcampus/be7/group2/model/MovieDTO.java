@@ -88,7 +88,7 @@ public class MovieDTO {
      */
     public String printMovieInfo() {
         String header = "************************";
-        String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre;
+        String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre+  "\n좌석: " + seat;
         String footer = "************************";
         return header + "\n" + body + "\n" + footer;
     }
@@ -101,6 +101,7 @@ public class MovieDTO {
                 ", runningTime=" + runningTime +
                 ", rating=" + rating +
                 ", genre=" + genre +
+                ", seat=" + seat +
                 '}';
     }
 
