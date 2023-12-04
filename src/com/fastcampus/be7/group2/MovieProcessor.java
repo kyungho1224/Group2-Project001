@@ -19,7 +19,7 @@ public class MovieProcessor {
         while (true) {
 
             System.out.println("========== 장르별 영화 검색 프로그램(2조-잠은 죽어서 자야조) ==========");
-            System.out.println("1.영화입력(I)\t2.영화출력(P)\t3.영화검색(S)\t4.종료(E)");
+            System.out.println("1.영화입력(I)\t2.영화출력(P)\t3.영화검색(S)\t4.종료(E)\t5.영화예매(R)");
             System.out.println("===============================================================");
             System.out.print("메뉴입력 : ");
 
@@ -28,8 +28,6 @@ public class MovieProcessor {
             String menu = scanner.nextLine();
 
             if (menu.equalsIgnoreCase("I")) {
-                // TODO 영화입력
-
                 if (movieOperations.getMaxMovieCount() == 0) {
                     // - 먼저, 영화 데이터의 수를 입력하고
                     System.out.print("영화 데이터의 수를 입력해주세요 : ");
@@ -83,8 +81,6 @@ public class MovieProcessor {
                 System.out.println();
 
             } else if (menu.equalsIgnoreCase("P")) {
-                // TODO 영화출력
-
                 // 저장된 영화가 없을 때 영화출력을 요청했을 때 처리
                 if (movieOperations.getCurrentMovieCount() > 0) {
                     System.out.println("총 " + movieOperations.getCurrentMovieCount() + "개의 영화가 있습니다.");
@@ -99,8 +95,6 @@ public class MovieProcessor {
                 }
                 System.out.println();
             } else if (menu.equalsIgnoreCase("S")) {
-                // TODO 영화 장르 검색
-
                 while (true) {
                     if (movieOperations.getCurrentMovieCount() > 0) {
                         System.out.print("검색할 장르를 입력해주세요 : ");
@@ -130,13 +124,90 @@ public class MovieProcessor {
                 }
 
             } else if (menu.equalsIgnoreCase("E") || menu.equals("-1")) {
-                // TODO 종료
-
                 System.out.println("프로그램을 종료합니다. 감사합니다!");
                 System.out.println();
                 break;
+            } else if (menu.equalsIgnoreCase("R")) {
+                // 1. 상영중인 영화가 있는지 확인
+                // 2. 상영중인 영화가 있다면 예매하기메뉴를 보여줌
+                // 3. 예매하기 메뉴 입력에 대한 오류 처리
+
+                if (movieOperations.getCurrentMovieCount() > 0) {
+
+                    while (true) {
+                        System.out.println();
+                        System.out.println("***************************************************************************");
+                        System.out.println("상영중인 영화 목록입니다.");
+                        MovieDTO[] movies = movieOperations.getMovieList();
+                        for (MovieDTO movie : movies) {
+                            if (movie != null) {
+                                System.out.println(movie.printReservationInfo());
+                            }
+                        }
+                        System.out.println("***************************************************************************");
+                        // Ticketing, History, Back
+                        System.out.println("1.영화예매(T)\t2.예매내역확인(H)\t3.돌아가기(B)");
+                        System.out.print("(영화예매)메뉴를 선택해주세요 : ");
+                        String reservationMenu = scanner.nextLine();
+
+                        if (reservationMenu.equalsIgnoreCase("T")) {
+                            System.out.print("예매를 원하는 영화의 제목을 입력해주세요 : ");
+                            String title = scanner.nextLine();
+                            if (movieOperations.isContain(title)) {
+                                MovieDTO choiceMovie = movieOperations.getChoiceMovie(title);
+                                int remainingSeat = choiceMovie.getSeat();
+                                if (remainingSeat > 0) {
+                                    while (true) {
+                                        System.out.println("'" + title + "'의 잔여좌석은 " + remainingSeat + "개입니다.");
+                                        System.out.print("예약하고 싶은 인원수를 입력해주세요 : ");
+                                        int numberOfPeople = scanner.nextInt();
+                                        scanner.nextLine();
+                                        if (numberOfPeople <= remainingSeat) {
+                                            movieOperations.updateMovieData(choiceMovie, numberOfPeople);
+                                            System.out.println("***** 예약이 완료되었습니다 *****");
+                                            System.out.println();
+                                            break;
+                                        } else {
+                                            // 잔여좌석보다 더 많은 좌석을 요청했을 때
+                                            System.out.println("잔여좌석보다 많은 인원은 예약이 불가능합니다.");
+                                            System.out.println();
+                                        }
+                                    }
+                                } else {
+                                    // 잔여좌석이 0일 때
+                                    System.out.println("매진입니다!!!!!");
+                                    System.out.println();
+                                }
+                            } else {
+                                // 입력한 제목의 영화가 없을 때
+                                System.out.println("영화의 제목을 다시 확인하고 예매해주세요.");
+                            }
+
+                        } else if (reservationMenu.equalsIgnoreCase("H")) {
+                            if (movieOperations.getReservationCount() > 0) {
+                                System.out.println("***************************************************************************");
+                                System.out.println("예매 목록입니다.");
+                                System.out.println(movieOperations.getReservationHistory());
+                                System.out.println("***************************************************************************");
+                            } else {
+                                System.out.println("예매내역이 없습니다!!!!!");
+                                System.out.println();
+                            }
+                        } else if (reservationMenu.equalsIgnoreCase("B") || reservationMenu.equals("-1")) {
+                            break;
+                        } else {
+                            System.out.println("잘못된 입력입니다. 메뉴를 다시 확인하고 입력해주세요.");
+                            System.out.println();
+                        }
+                    }
+
+                } else {
+                    System.out.println("상영중인 영화가 없습니다. 다음에 다시 오세요!");
+                    System.out.println();
+                }
+
             } else {
-                // TODO 메뉴에 없는 입력을 받았을 때 오류 처리
+                // 메뉴에 없는 입력을 받았을 때 오류 처리
                 System.out.println("잘못된 입력입니다. 메뉴를 다시 확인하고 입력해주세요.");
                 System.out.println();
             }
