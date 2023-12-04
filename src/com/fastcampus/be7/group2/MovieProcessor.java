@@ -13,6 +13,8 @@ public class MovieProcessor {
 
     public static void main(String[] args) {
 
+        // 안녕하세요 브랜치 테스트중입니다.
+
         // 기능 구현 클래스
         MovieOperations movieOperations = new MovieOperations();
 
