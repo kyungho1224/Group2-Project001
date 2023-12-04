@@ -135,5 +135,30 @@ public class MovieOperations {
         }
         return searchMovies;
     }
+    //예약 내역 저장을 위한 Reservation 클래스
+    public  static class Reservation {
+        private String movieTitle;
+        private int numberOfPeople;
 
+        public Reservation(String movieTitle, int numberOfPeople) {
+            this.movieTitle = movieTitle;
+            this.numberOfPeople = numberOfPeople;
+        }
+
+        public String getMovieTitle() {
+            return movieTitle;
+        }
+
+        public void setMovieTitle(String movieTitle) {
+            this.movieTitle = movieTitle;
+        }
+
+        public int getNumberOfPeople() {
+            return numberOfPeople;
+        }
+
+        public void setNumberOfPeople(int numberOfPeople) {
+            this.numberOfPeople = numberOfPeople;
+        }
+    }
 }
