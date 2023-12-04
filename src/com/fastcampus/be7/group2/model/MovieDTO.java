@@ -12,10 +12,9 @@ public class MovieDTO {
     private int runningTime;
     private float rating;
     private String genre;
-
     private int seat;
-    private int test222;
-    public MovieDTO() {
+
+    private MovieDTO() {
     }
 
     public MovieDTO(String title, String major, int runningTime, float rating, String genre) {
@@ -24,6 +23,7 @@ public class MovieDTO {
         this.runningTime = runningTime;
         this.rating = rating;
         this.genre = genre;
+        this.seat = 100;
     }
 
     public MovieDTO(String title, String major, int runningTime, float rating, String genre, int seat) {
@@ -88,9 +88,13 @@ public class MovieDTO {
      */
     public String printMovieInfo() {
         String header = "************************";
-        String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre;
+        String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre + "\n잔여좌석: " + seat;
         String footer = "************************";
         return header + "\n" + body + "\n" + footer;
+    }
+
+    public String printReservationInfo() {
+        return "영화제목: " + title + "\t주인공: " + major + "\t상영시간: " + runningTime + "\t평점: " + rating + "\t장르: " + genre + "\t잔여좌석: " + seat;
     }
 
     @Override
@@ -100,8 +104,8 @@ public class MovieDTO {
                 ", major='" + major + '\'' +
                 ", runningTime=" + runningTime +
                 ", rating=" + rating +
-                ", genre=" + genre +
+                ", genre='" + genre + '\'' +
+                ", seat=" + seat +
                 '}';
     }
-
 }
