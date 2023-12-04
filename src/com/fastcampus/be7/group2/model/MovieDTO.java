@@ -14,7 +14,7 @@ public class MovieDTO {
     private String genre;
 
     private int seat;
-
+    private int test;
     public MovieDTO() {
     }
 
