@@ -83,6 +83,9 @@ public class MovieDTO {
         this.seat = seat;
     }
 
+    /**
+     * @return 영화정보 출력
+     */
     public String printMovieInfo() {
         String header = "************************";
         String body = "영화제목: " + title + "\n주인공: " + major + "\n상영시간: " + runningTime + "\n평점: " + rating + "\n장르: " + genre;
