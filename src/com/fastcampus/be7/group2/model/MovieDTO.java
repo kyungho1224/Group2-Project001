@@ -13,6 +13,8 @@ public class MovieDTO {
     private float rating;
     private String genre;
 
+    private int seat;
+
     public MovieDTO() {
     }
 
@@ -22,6 +24,15 @@ public class MovieDTO {
         this.runningTime = runningTime;
         this.rating = rating;
         this.genre = genre;
+    }
+
+    public MovieDTO(String title, String major, int runningTime, float rating, String genre, int seat) {
+        this.title = title;
+        this.major = major;
+        this.runningTime = runningTime;
+        this.rating = rating;
+        this.genre = genre;
+        this.seat = seat;
     }
 
     public String getTitle() {
@@ -62,6 +73,14 @@ public class MovieDTO {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public int getSeat() {
+        return seat;
+    }
+
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     public String printMovieInfo() {
