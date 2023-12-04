@@ -162,14 +162,19 @@ public class MovieProcessor {
                                         System.out.print("예약하고 싶은 인원수를 입력해주세요 : ");
                                         int numberOfPeople = scanner.nextInt();
                                         scanner.nextLine();
-                                        if (numberOfPeople <= remainingSeat) {
-                                            movieOperations.updateMovieData(choiceMovie, numberOfPeople);
-                                            System.out.println("***** 예약이 완료되었습니다 *****");
-                                            System.out.println();
-                                            break;
+                                        if (numberOfPeople > 0) {
+                                            if (numberOfPeople <= remainingSeat) {
+                                                movieOperations.updateMovieData(choiceMovie, numberOfPeople);
+                                                System.out.println("***** 예약이 완료되었습니다 *****");
+                                                System.out.println();
+                                                break;
+                                            } else {
+                                                // 잔여좌석보다 더 많은 좌석을 요청했을 때
+                                                System.out.println("잔여좌석보다 많은 인원은 예약이 불가능합니다.");
+                                                System.out.println();
+                                            }
                                         } else {
-                                            // 잔여좌석보다 더 많은 좌석을 요청했을 때
-                                            System.out.println("잔여좌석보다 많은 인원은 예약이 불가능합니다.");
+                                            System.out.println("최소 예약 인원은 1명입니다.");
                                             System.out.println();
                                         }
                                     }
